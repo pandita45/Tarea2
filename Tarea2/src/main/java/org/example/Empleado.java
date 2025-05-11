@@ -1,6 +1,6 @@
 package org.example;
 
-public class Empleado {
+public class Empleado implements Invitable {
     private String id;
     private String Apellidos;
     private String Nombre;
@@ -23,5 +23,9 @@ public class Empleado {
     }
     public String getCorreo(){
         return Correo;
+    }
+
+    @Override
+    public void invitar() {
     }
 }
