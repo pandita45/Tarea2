@@ -27,5 +27,6 @@ public class Empleado implements Invitable {
 
     @Override
     public void invitar() {
+
     }
 }

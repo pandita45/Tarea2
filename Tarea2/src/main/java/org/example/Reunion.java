@@ -11,12 +11,22 @@ abstract public class Reunion {
     private Duration duracionPrevista;
     private Instant horaInicio;
     private Instant horaFinal;
+    private ArrayList<Invitacion> invitaciones;
+    private ArrayList<Asistencia> asistencias;
 
-    public List obtenerAsistencia(){
-        return List.of();
+
+    public ArrayList<Asistencia> obtenerAsistencia(){
+        return asistencias;
     }
-    public List obtenerAusencias(){
-        return List.of();
+    public ArrayList<Invitable> obtenerAusencias(){
+        ArrayList<Invitable> ausencias = new ArrayList<>();
+        for(Invitacion invitacion : invitaciones){
+            ausencias.add(invitacion.getInvitado());
+        }
+        for(Asistencia asistencia: asistencias){
+            ausencias.remove(asistencia.getInvitado());
+        }
+        return ausencias;
     }
     public List obtenerRetrasos(){
         return List.of();
