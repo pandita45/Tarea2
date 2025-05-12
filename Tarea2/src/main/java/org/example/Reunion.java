@@ -11,13 +11,26 @@ abstract public class Reunion {
     private Duration duracionPrevista;
     private Instant horaInicio;
     private Instant horaFinal;
-    private ArrayList<Invitacion> invitaciones;
     private ArrayList<Asistencia> asistencias;
+    private ArrayList<Invitacion> invitaciones;
+    public Reunion(){
+        asistencias = new ArrayList<>();
+        invitaciones = new ArrayList<>();
+    }
 
+    public void agregarAsistencias(Asistencia a){
+        asistencias.add(a);
+    }
+
+    public void invitarAReunion(Invitable a){
+        Invitacion inv = new Invitacion(Instant.now(), a);
+        invitaciones.add(inv);
+    }
 
     public ArrayList<Asistencia> obtenerAsistencia(){
         return asistencias;
     }
+
     public ArrayList<Invitable> obtenerAusencias(){
         ArrayList<Invitable> ausencias = new ArrayList<>();
         for(Invitacion invitacion : invitaciones){
@@ -32,11 +45,13 @@ abstract public class Reunion {
         return List.of();
     }
     public int obtenerTotalAsistencias(){
-        return 1;
+        return asistencias.size();
     }
     public float obtenerPorcentajeAsistencia(){
-        return 1;
+        float porcentaje = (float) asistencias.size()/invitaciones.size();
+        return porcentaje*100;
     }
+
     public float calcularTiempoReal(){
         return 1;
     }
@@ -46,5 +61,4 @@ abstract public class Reunion {
     public void finalizar(){
 
     }
-
 }

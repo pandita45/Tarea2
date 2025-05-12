@@ -1,5 +1,6 @@
 package org.example;
 
+
 import java.util.ArrayList;
 
 public class Departamento implements Invitable{
@@ -25,6 +26,9 @@ public class Departamento implements Invitable{
     }
 
     @Override
-    public void invitar() {
+    public void invitar(Reunion a) {
+        for(Empleado empleados : empleados){
+            a.invitarAReunion(empleados);
+        }
     }
 }
