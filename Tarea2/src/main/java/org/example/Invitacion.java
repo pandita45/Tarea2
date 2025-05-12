@@ -1,9 +1,11 @@
 package org.example;
 
+import java.time.Instant;
+
 public class Invitacion {
-    private int hora;
+    private Instant hora;
     private Invitable invitado;
-    public Invitacion(int h, Invitable b){
+    public Invitacion(Instant h, Invitable b){
         this.hora=h;
         this.invitado = b;
     }
