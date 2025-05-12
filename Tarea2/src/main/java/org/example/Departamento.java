@@ -31,4 +31,9 @@ public class Departamento implements Invitable{
             a.invitarAReunion(empleados);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Departamento "+nombre + ", empleados=" + empleados;
+    }
 }

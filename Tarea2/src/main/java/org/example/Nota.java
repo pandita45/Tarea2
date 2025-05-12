@@ -5,4 +5,9 @@ public class Nota {
     public Nota(String n){
         this.contenido=n;
     }
+
+    @Override
+    public String toString() {
+        return contenido;
+    }
 }

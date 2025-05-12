@@ -1,7 +1,7 @@
 package org.example;
 
 public class Asistencia {
-    private Invitable invitado;
+    protected Invitable invitado;
 
     public Asistencia(Invitable invitado) {
         this.invitado = invitado;
@@ -9,5 +9,10 @@ public class Asistencia {
 
     public Invitable getInvitado(){
         return this.invitado;
+    }
+
+    @Override
+    public String toString() {
+        return invitado.toString();
     }
 }
