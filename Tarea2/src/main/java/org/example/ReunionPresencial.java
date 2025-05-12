@@ -11,8 +11,8 @@ import java.util.Date;
 public class ReunionPresencial extends Reunion {
     private String sala;
 
-    public ReunionPresencial(Date f, Instant j, Duration k, String sala) {
-        super(f, j, k);
+    public ReunionPresencial(Date f, Instant j, Duration k, String sala, TipoReunion t) {
+        super(f, j, k, t);
         this.sala = sala;
     }
 
@@ -40,16 +40,20 @@ public class ReunionPresencial extends Reunion {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String fechaFinal = formatter.format(fechaInicio3);
 
-        return "ReunionPresencial{" +
-                "sala=" + sala +
-                "\nfecha=" + fechaTexto +
-                "\nhoraPrevista=" + fechaPrevista +
-                "\nduracionPrevista=" + duracionPrevista.toString() +
-                "\nhoraInicio=" + fechaInicio +
-                "\nhoraFinal=" + fechaFinal +
-                "\nasistencias=" + asistencias +
-                "\ninvitaciones=" + invitaciones +
-                "\nretrasos=" + retrasos +
-                "\nnotas=" + notas;
+        long horas = duracionPrevista.toHours();
+        long minutos = duracionPrevista.minusHours(horas).toMinutes();
+        String formatted = String.format("%02d:%02d:%02d", horas, minutos,0);
+        return "ReunionPresencial" +
+                "\nsala = " + sala +
+                "\nfecha = " + fechaTexto +
+                "\nhoraPrevista = " + fechaPrevista +
+                "\nduracionPrevista = " + formatted +
+                "\nhoraInicio = " + fechaInicio +
+                "\nhoraFinal = " + fechaFinal +
+                "\nasistencias = " + asistencias +
+                "\ninvitaciones = " + invitaciones +
+                "\nretrasos = " + retrasos +
+                "\nausencias = " + obtenerAusencias() +
+                "\nnotas = " + notas;
     }
 }

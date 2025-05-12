@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 abstract public class Reunion {
+    protected TipoReunion tipoReunion;
     protected Date fecha;
     protected Instant horaPrevista;
     protected Duration duracionPrevista;
@@ -18,11 +19,12 @@ abstract public class Reunion {
     protected ArrayList<Invitacion> invitaciones;
     protected ArrayList<Retraso> retrasos;
     protected ArrayList<Nota> notas;
-    public Reunion(Date f,Instant j,Duration k){
+    public Reunion(Date f,Instant j,Duration k,TipoReunion t){
         asistencias = new ArrayList<>();
         invitaciones = new ArrayList<>();
         retrasos = new ArrayList<>();
         notas = new ArrayList<>();
+        this.tipoReunion = t;
         this.fecha= f;
         this.horaPrevista=j;
         this.duracionPrevista=k;
@@ -30,12 +32,12 @@ abstract public class Reunion {
         this.horaFinal=null;
     }
     public void agregarAsistencias(Invitable i){
-        if(horaInicio!=null){
+        if(horaInicio!=null && estaInvitado(i)){
             Retraso a = new Retraso(Instant.now(),i);
             retrasos.add(a);
             asistencias.add(a);
         }
-        else {
+        else if(estaInvitado(i)){
             Asistencia a = new Asistencia(i);
             asistencias.add(a);
         }
@@ -88,6 +90,10 @@ abstract public class Reunion {
         this.horaFinal = Instant.now();
     }
 
+    public TipoReunion getTipoReunion() {
+        return tipoReunion;
+    }
+
     public Date getFecha() {
         return fecha;
     }
@@ -98,6 +104,15 @@ abstract public class Reunion {
 
     public Duration getDuracionPrevista() {
         return duracionPrevista;
+    }
+
+    private boolean estaInvitado(Invitable i){
+        for(Invitacion invitacion : invitaciones){
+            if(invitacion.getInvitado() == i){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -116,16 +131,21 @@ abstract public class Reunion {
         ZonedDateTime fechaInicio3 = horaFinal.atZone(ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String fechaFinal = formatter.format(fechaInicio3);
-        return "ReunionPresencial{" +
-                "\nfecha=" + fechaTexto +
-                "\nhoraPrevista=" + fechaPrevista +
-                "\nduracionPrevista=" + duracionPrevista.toString() +
-                "\nhoraInicio=" + fechaInicio +
-                "\nhoraFinal=" + fechaFinal +
-                "\nasistencias=" + asistencias +
-                "\ninvitaciones=" + invitaciones +
-                "\nretrasos=" + retrasos +
-                "\nnotas=" + notas +
+
+        long horas = duracionPrevista.toHours();
+        long minutos = duracionPrevista.minusHours(horas).toMinutes();
+        String formatted = String.format("%02d:%02d:%02d", horas, minutos,0);
+        return "ReunionPresencial" +
+                "\nfecha = " + fechaTexto +
+                "\nhoraPrevista = " + fechaPrevista +
+                "\nduracionPrevista = " + formatted +
+                "\nhoraInicio = " + fechaInicio +
+                "\nhoraFinal = " + fechaFinal +
+                "\nasistencias = " + asistencias +
+                "\ninvitaciones = " + invitaciones +
+                "\nretrasos = " + retrasos +
+                "\nausencias = " + obtenerAusencias() +
+                "\nnotas = " + notas +
                 '}';
     }
 }

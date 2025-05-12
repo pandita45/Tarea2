@@ -19,6 +19,6 @@ public class Retraso extends Asistencia{
         ZonedDateTime fechaInicio = hora.atZone(ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String hora = formatter.format(fechaInicio);
-        return "Retraso{" + "hora=" + hora +" "+ invitado + "}";
+        return "hora = " + hora +" "+ invitado;
     }
 }

@@ -21,6 +21,6 @@ public class Invitacion {
         ZonedDateTime fechaInicio = hora.atZone(ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String hora = formatter.format(fechaInicio);
-        return "hora=" + hora + ", invitado=" + invitado;
+        return "hora = " + hora + ", invitado = " + invitado;
     }
 }

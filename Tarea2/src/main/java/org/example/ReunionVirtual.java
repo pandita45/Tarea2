@@ -11,8 +11,8 @@ import java.util.Date;
 public class ReunionVirtual extends Reunion {
     private String enlace;
 
-    public ReunionVirtual(Date f, Instant j, Duration k, String enlace) {
-        super(f, j, k);
+    public ReunionVirtual(Date f, Instant j, Duration k, String enlace, TipoReunion t) {
+        super(f, j, k, t);
         this.enlace = enlace;
     }
 
@@ -41,17 +41,20 @@ public class ReunionVirtual extends Reunion {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String fechaFinal = formatter.format(fechaInicio3);
 
-        return "ReunionPresencial{" +
-                "enlace='" + enlace + '\'' +
-                "\nfecha=" + fechaTexto +
-                "\nhoraPrevista=" + fechaPrevista +
-                "\nduracionPrevista=" + duracionPrevista.toString() +
-                "\nhoraInicio=" + fechaInicio +
-                "\nhoraFinal=" + fechaFinal +
-                "\nasistencias=" + asistencias +
-                "\ninvitaciones=" + invitaciones +
-                "\nretrasos=" + retrasos +
-                "\nnotas=" + notas +
-                '}';
+        long horas = duracionPrevista.toHours();
+        long minutos = duracionPrevista.minusHours(horas).toMinutes();
+        String formatted = String.format("%02d:%02d:%02d", horas, minutos,0);
+        return "ReunionVirtual" +
+                "\nlink = " + enlace +
+                "\nfecha = " + fechaTexto +
+                "\nhoraPrevista = " + fechaPrevista +
+                "\nduracionPrevista = " + formatted +
+                "\nhoraInicio = " + fechaInicio +
+                "\nhoraFinal = " + fechaFinal +
+                "\nasistencias = " + asistencias +
+                "\ninvitaciones = " + invitaciones +
+                "\nretrasos = " + retrasos +
+                "\nausencias = " + obtenerAusencias() +
+                "\nnotas = " + notas;
     }
 }
