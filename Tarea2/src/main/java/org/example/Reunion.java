@@ -1,19 +1,23 @@
 package org.example;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
 abstract public class Reunion {
-    private Date fecha;
-    private Instant horaPrevista;
-    private Duration duracionPrevista;
-    private Instant horaInicio;
-    private Instant horaFinal;
-    private ArrayList<Asistencia> asistencias;
-    private ArrayList<Invitacion> invitaciones;
-    private ArrayList<Retraso> retrasos;
-    private ArrayList<Nota> notas;
+    protected Date fecha;
+    protected Instant horaPrevista;
+    protected Duration duracionPrevista;
+    protected Instant horaInicio;
+    protected Instant horaFinal;
+    protected ArrayList<Asistencia> asistencias;
+    protected ArrayList<Invitacion> invitaciones;
+    protected ArrayList<Retraso> retrasos;
+    protected ArrayList<Nota> notas;
     public Reunion(Date f,Instant j,Duration k){
         asistencias = new ArrayList<>();
         invitaciones = new ArrayList<>();
@@ -38,7 +42,7 @@ abstract public class Reunion {
     }
 
     public void invitarAReunion(Invitable a){
-        Invitacion inv = new Invitacion(Instant.now(), a);
+        Invitacion inv = new Invitacion(a);
         invitaciones.add(inv);
     }
 
@@ -68,12 +72,12 @@ abstract public class Reunion {
     }
 
     public Duration calcularTiempoReal(){
-        if(horaFinal==null || horaFinal==null){
+        if(horaInicio==null || horaFinal==null){
             return null;
         }
         return Duration.between(horaFinal,horaInicio);
     }
-    public void añadirNotas(String k){
+    public void agregarNotas(String k){
         notas.add(new Nota(k));
     }
 
@@ -82,5 +86,46 @@ abstract public class Reunion {
     }
     public void finalizar(){
         this.horaFinal = Instant.now();
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public Instant getHoraPrevista() {
+        return horaPrevista;
+    }
+
+    public Duration getDuracionPrevista() {
+        return duracionPrevista;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaTexto = formato.format(fecha);
+
+        ZonedDateTime fechaInicio1 = horaInicio.atZone(ZoneId.systemDefault());
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String fechaInicio = formatter1.format(fechaInicio1);
+
+        ZonedDateTime fechaInicio2 = horaPrevista.atZone(ZoneId.systemDefault());
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String fechaPrevista = formatter2.format(fechaInicio2);
+
+        ZonedDateTime fechaInicio3 = horaFinal.atZone(ZoneId.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String fechaFinal = formatter.format(fechaInicio3);
+        return "ReunionPresencial{" +
+                "\nfecha=" + fechaTexto +
+                "\nhoraPrevista=" + fechaPrevista +
+                "\nduracionPrevista=" + duracionPrevista.toString() +
+                "\nhoraInicio=" + fechaInicio +
+                "\nhoraFinal=" + fechaFinal +
+                "\nasistencias=" + asistencias +
+                "\ninvitaciones=" + invitaciones +
+                "\nretrasos=" + retrasos +
+                "\nnotas=" + notas +
+                '}';
     }
 }
