@@ -9,8 +9,9 @@ public class Main {
         d.invitar(r);
         r.agregarAsistencias(e);
         System.out.println(r.obtenerAsistencia());
-        r.iniciar(3,20);
-        r.finalizar(3,30);
+        r.iniciar();
+        r.finalizar();
+        r.calcularTiempoReal();
         System.out.println(r.calcularTiempoReal());
         }
     }

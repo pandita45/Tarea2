@@ -6,4 +6,7 @@ public class Retraso extends Asistencia{
         super(i);
         this.hora=h;
     }
+    public Instant getHoraAtraso(){
+        return hora;
+    }
 }

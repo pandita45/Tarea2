@@ -3,8 +3,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Dictionary;
-import java.util.List;
 
 abstract public class Reunion {
     private Date fecha;
@@ -15,16 +13,23 @@ abstract public class Reunion {
     private ArrayList<Asistencia> asistencias;
     private ArrayList<Invitacion> invitaciones;
     private ArrayList<Retraso> retrasos;
-    public Reunion(){
+    private ArrayList<Nota> notas;
+    public Reunion(Date f,Instant j,Duration k){
         asistencias = new ArrayList<>();
         invitaciones = new ArrayList<>();
         retrasos = new ArrayList<>();
+        notas = new ArrayList<>();
+        this.fecha= f;
+        this.horaPrevista=j;
+        this.duracionPrevista=k;
+        this.horaInicio=null;
+        this.horaFinal=null;
     }
-
     public void agregarAsistencias(Invitable i){
-        if(Instant.now().isAfter(horaInicio)){
+        if(horaInicio!=null){
             Retraso a = new Retraso(Instant.now(),i);
             retrasos.add(a);
+            asistencias.add(a);
         }
         else {
             Asistencia a = new Asistencia(i);
@@ -51,8 +56,8 @@ abstract public class Reunion {
         }
         return ausencias;
     }
-    public List obtenerRetrasos(){
-        return List.of();
+    public ArrayList<Retraso> obtenerRetrasos(){
+        return retrasos;
     }
     public int obtenerTotalAsistencias(){
         return asistencias.size();
@@ -63,12 +68,19 @@ abstract public class Reunion {
     }
 
     public Duration calcularTiempoReal(){
+        if(horaFinal==null || horaFinal==null){
+            return null;
+        }
         return Duration.between(horaFinal,horaInicio);
     }
-    public void iniciar(int hora, int minuto){
+    public void añadirNotas(String k){
+        notas.add(new Nota(k));
+    }
+
+    public void iniciar(){
         this.horaInicio = Instant.now();
     }
-    public void finalizar(int horas, int minutos){
-        this.horaFinal = horaInicio.plus(Duration.ofHours(horas)).plus(Duration.ofMinutes(minutos));
+    public void finalizar(){
+        this.horaFinal = Instant.now();
     }
 }
