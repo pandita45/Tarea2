@@ -3,6 +3,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.List;
 
 abstract public class Reunion {
@@ -13,13 +14,22 @@ abstract public class Reunion {
     private Instant horaFinal;
     private ArrayList<Asistencia> asistencias;
     private ArrayList<Invitacion> invitaciones;
+    private ArrayList<Retraso> retrasos;
     public Reunion(){
         asistencias = new ArrayList<>();
         invitaciones = new ArrayList<>();
+        retrasos = new ArrayList<>();
     }
 
-    public void agregarAsistencias(Asistencia a){
-        asistencias.add(a);
+    public void agregarAsistencias(Invitable i){
+        if(Instant.now().isAfter(horaInicio)){
+            Retraso a = new Retraso(Instant.now(),i);
+            retrasos.add(a);
+        }
+        else {
+            Asistencia a = new Asistencia(i);
+            asistencias.add(a);
+        }
     }
 
     public void invitarAReunion(Invitable a){
@@ -52,13 +62,13 @@ abstract public class Reunion {
         return porcentaje*100;
     }
 
-    public float calcularTiempoReal(){
-        return 1;
+    public Duration calcularTiempoReal(){
+        return Duration.between(horaFinal,horaInicio);
     }
-    public void iniciar(){
-
+    public void iniciar(int hora, int minuto){
+        this.horaInicio = Instant.now();
     }
-    public void finalizar(){
-
+    public void finalizar(int horas, int minutos){
+        this.horaFinal = horaInicio.plus(Duration.ofHours(horas)).plus(Duration.ofMinutes(minutos));
     }
 }
