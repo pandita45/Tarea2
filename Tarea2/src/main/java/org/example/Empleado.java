@@ -26,7 +26,7 @@ public class Empleado implements Invitable {
     }
 
     @Override
-    public void invitar() {
-
+    public void invitar(Reunion a) {
+        a.invitarAReunion(this);
     }
 }
