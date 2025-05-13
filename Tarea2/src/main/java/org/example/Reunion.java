@@ -115,6 +115,7 @@ abstract public class Reunion {
     }
 
     /**
+     * Obtenemos cuantos invitados asistieron a la reunion
      * @return devuelve el tamaño del array de asistencias (cantidad de personas que asistieron)
      */
     public int obtenerTotalAsistencias(){
@@ -122,6 +123,7 @@ abstract public class Reunion {
     }
 
     /**
+     * Calcula porcentaje de invitados que asistion a la reunion
      * @return devuelve porcentaje de Invitados que asistieron a la Reunion
      */
     public float obtenerPorcentajeAsistencia(){
@@ -130,6 +132,7 @@ abstract public class Reunion {
     }
 
     /**
+     * Calcula cuanto duro la reunion
      * @return devuelve el tiempo que duro la reunion
      */
     public Duration calcularTiempoReal(){
@@ -140,6 +143,7 @@ abstract public class Reunion {
     }
 
     /**
+     * Se agrega nota al array de notas
      * @param k agrega este String al array de Notas
      */
     public void agregarNotas(String k){
@@ -225,8 +229,9 @@ abstract public class Reunion {
     }
 
     /**
-     * @return Devuelve un String con toda la información sobre la Reunion, las clases que extienden a esta luego agregaran
-     * más información a este String.
+     * Devuelve el string con toda la información de la Reunion, las clases que extienden a esta luego agregaran
+     *      * más información a este String.
+     * @return String con toda la información
      */
     @Override
     public String toString() {
