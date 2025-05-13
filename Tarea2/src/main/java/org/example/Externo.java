@@ -1,6 +1,7 @@
 package org.example;
 
 public class Externo implements Invitable{
+    private String id;
     private String nombre;
     private String apellidos;
     private String correo;
@@ -9,6 +10,7 @@ public class Externo implements Invitable{
         this.nombre = n;
         this.apellidos = a;
         this.correo = c;
+        this.id = "No es empleado";
     }
     @Override
     public void invitar(Reunion a) {
@@ -30,8 +32,9 @@ public class Externo implements Invitable{
     @Override
     public String toString() {
         return "Externo{" +
-                "nombre='" + nombre + '\'' +
+                "id='" + id + '\'' +
                 ", apellidos='" + apellidos + '\'' +
+                ", nombre='" + nombre + '\'' +
                 ", correo='" + correo + '\'' +
                 '}';
     }
