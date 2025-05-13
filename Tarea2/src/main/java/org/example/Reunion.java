@@ -147,7 +147,7 @@ abstract public class Reunion {
         long horas = duracionPrevista.toHours();
         long minutos = duracionPrevista.minusHours(horas).toMinutes();
         String formatted = String.format("%02d:%02d:%02d", horas, minutos,0);
-        return "ReunionPresencial" +
+        return
                 "\nfecha = " + fechaTexto +
                 "\nhoraPrevista = " + fechaPrevista +
                 "\nduracionPrevista = " + formatted +

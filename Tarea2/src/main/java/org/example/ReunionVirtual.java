@@ -46,15 +46,7 @@ public class ReunionVirtual extends Reunion {
         String formatted = String.format("%02d:%02d:%02d", horas, minutos,0);
         return "ReunionVirtual" +
                 "\nlink = " + enlace +
-                "\nfecha = " + fechaTexto +
-                "\nhoraPrevista = " + fechaPrevista +
-                "\nduracionPrevista = " + formatted +
-                "\nhoraInicio = " + fechaInicio +
-                "\nhoraFinal = " + fechaFinal +
-                "\nasistencias = " + asistencias +
-                "\ninvitaciones = " + invitaciones +
-                "\nretrasos = " + retrasos +
-                "\nausencias = " + obtenerAusencias() +
-                "\nnotas = " + notas;
+                super.toString();
+
     }
 }
