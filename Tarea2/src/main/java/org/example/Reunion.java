@@ -87,7 +87,11 @@ abstract public class Reunion {
         this.horaInicio = Instant.now();
     }
     public void finalizar(){
-        this.horaFinal = Instant.now();
+        if(this.horaInicio != null){
+            this.horaFinal = Instant.now();
+        }
+        else{}
+
     }
 
     public TipoReunion getTipoReunion() {
@@ -113,6 +117,14 @@ abstract public class Reunion {
             }
         }
         return false;
+    }
+
+    public Instant getHoraInicio() {
+        return horaInicio;
+    }
+
+    public Instant getHoraFinal() {
+        return horaFinal;
     }
 
     @Override
