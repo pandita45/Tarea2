@@ -106,7 +106,7 @@ abstract public class Reunion {
         return duracionPrevista;
     }
 
-    private boolean estaInvitado(Invitable i){
+    public boolean estaInvitado(Invitable i){
         for(Invitacion invitacion : invitaciones){
             if(invitacion.getInvitado() == i){
                 return true;
