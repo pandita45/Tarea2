@@ -151,18 +151,33 @@ class ReunionTest {
 
     @Test
     void testToString() {
-        notasf = new ArrayList<>();
         a.iniciar();
-        a.finalizar();
-        a.invitarAReunion(empleado1);
-        a.invitarAReunion(empleado2);
-        a.agregarAsistencias(empleado1);
-        Nota nota1 = new Nota("Hola yo acepto el paro indefinido gracias");
-        notasf.add(nota1);
-        a.agregarNotas(nota1.toString());
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaTexto = formato.format(a.getFecha());
 
-        assertTrue(a.toString().contains("ReunionPresencial"));
-        assertTrue(a.toString().contains("fecha = " + fechaf));
-        assertTrue(a.toString().contains("notas = " + notasf));
+        ZonedDateTime fechaInicio1 = a.getHoraInicio().atZone(ZoneId.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String fechaInicio = formatter.format(fechaInicio1);
+
+        ZonedDateTime fechaInicio2 = a.getHoraPrevista().atZone(ZoneId.systemDefault());
+        String fechaPrevista = formatter.format(fechaInicio2);
+        a.finalizar();
+        ZonedDateTime fechaInicio3 = a.getHoraFinal().atZone(ZoneId.systemDefault());
+        String fechaFinal = formatter.format(fechaInicio3);
+        long horas = a.getDuracionPrevista().toHours();
+        long minutos = a.getDuracionPrevista().minusHours(horas).toMinutes();
+        String formatted = String.format("%02d:%02d:%02d", horas, minutos,0);
+
+        assertEquals(a.toString(),"ReunionPresencial" +
+                "\nsala = " + a.getSala() +"\nfecha = " + fechaTexto +
+                "\nhoraPrevista = " + fechaPrevista +
+                "\nduracionPrevista = " + formatted +
+                "\nhoraInicio = " + fechaInicio +
+                "\nhoraFinal = " + fechaFinal +
+                "\nasistencias = " + a.obtenerAsistencia() +
+                "\ninvitaciones = " + a.getInvitaciones() +
+                "\nretrasos = " + a.obtenerRetrasos() +
+                "\nausencias = " + a.obtenerAusencias()+
+                "\nnotas = " + a.getNotas());
     }
 }

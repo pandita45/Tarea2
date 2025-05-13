@@ -52,6 +52,14 @@ abstract public class Reunion {
         return asistencias;
     }
 
+    public ArrayList<Invitacion> getInvitaciones() {
+        return invitaciones;
+    }
+
+    public ArrayList<Nota> getNotas() {
+        return notas;
+    }
+
     public ArrayList<Invitable> obtenerAusencias(){
         ArrayList<Invitable> ausencias = new ArrayList<>();
         for(Invitacion invitacion : invitaciones){
@@ -90,7 +98,9 @@ abstract public class Reunion {
         if(this.horaInicio != null){
             this.horaFinal = Instant.now();
         }
-        else{}
+        else{
+
+        }
 
     }
 
@@ -157,7 +167,6 @@ abstract public class Reunion {
                 "\ninvitaciones = " + invitaciones +
                 "\nretrasos = " + retrasos +
                 "\nausencias = " + obtenerAusencias() +
-                "\nnotas = " + notas +
-                '}';
+                "\nnotas = " + notas;
     }
 }
