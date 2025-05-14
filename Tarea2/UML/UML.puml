@@ -1,0 +1,153 @@
+@startuml
+
+' ==== INTERFACES ====
+interface Invitable {
+    + invitar(Reunion a)
+}
+
+' ==== CLASES ====
+class Asistencia {
+    - Invitable invitado
+    + Asistencia(Invitable invitado)
+    + getInvitado(): Invitable
+    + toString(): String
+}
+
+class Departamento {
+    - String nombre
+    # ArrayList<Empleado> empleados
+    + Departamento(String nombre)
+    + getNombre(): String
+    + setNombre(String newNombre): void
+    + addEmpleado(Empleado a): void
+    + obtenerCantidadEmpleados(): int
+    + invitar(Reunion a): void
+    + toString(): String
+}
+
+class Empleado {
+    - String id
+    - String Apellidos
+    - String Nombre
+    - String Correo
+    + Empleado(String id, String nombre, String apellidos, String correo)
+    + getId(): String
+    + getApellidos(): String
+    + getNombre(): String
+    + getCorreo(): String
+    + invitar(Reunion a): void
+    + toString(): String
+}
+
+class Invitacion {
+    - Instant hora
+    - Invitable invitado
+    + Invitacion(Invitable b)
+    + getInvitado(): Invitable
+    + toString(): String
+}
+
+class Nota {
+    - String contenido
+    + Nota(String n)
+    + toString(): String
+}
+
+class Retraso {
+    - Instant hora
+    + Retraso(Instant h, Invitable i)
+    + getHoraAtraso(): Instant
+    + toString(): String
+}
+
+abstract class Reunion {
+    - TipoReunion tipoReunion
+    - Date fecha
+    - Instant horaPrevista
+    - Duration duracionPrevista
+    - Instant horaInicio
+    - Instant horaFinal
+    - ArrayList<Asistencia> asistencias
+    - ArrayList<Invitacion> invitaciones
+    - ArrayList<Retraso> retrasos
+    - ArrayList<Nota> notas
+    + Reunion(Date f, Instant j, Duration k, TipoReunion t)
+    + agregarAsistencias(Invitable i): void
+    + invitarAReunion(Invitable a): void
+    + obtenerAsistencia(): ArrayList<Asistencia>
+    + getInvitaciones(): ArrayList<Invitacion>
+    + getNotas(): ArrayList<Nota>
+    + obtenerAusencias(): ArrayList<Invitable>
+    + obtenerRetrasos(): ArrayList<Retraso>
+    + obtenerTotalAsistencias(): int
+    + obtenerPorcentajeAsistencia(): float
+    + calcularTiempoReal(): Duration
+    + agregarNotas(String k): void
+    + iniciar(): void
+    + finalizar(): void
+    + getTipoReunion(): TipoReunion
+    + getFecha(): Date
+    + getHoraPrevista(): Instant
+    + getDuracionPrevista(): Duration
+    + estaInvitado(Invitable i): boolean
+    + getHoraInicio(): Instant
+    + getHoraFinal(): Instant
+    + escribirArchivo(String texto): void
+    + toString(): String
+
+}
+
+class ReunionPresencial {
+    - String sala
+    + ReunionPresencial(Date f, Instant j, Duration k, String sala, TipoReunion t)
+    + getSala(): String
+    + setSala(String a): void
+    + toString(): String
+}
+
+class ReunionVirtual {
+    - String enlace
+    + ReunionVirtual(Date f, Instant j, Duration k, String enlace, TipoReunion t)
+    + getEnlace(): String
+    + setEnlace(String a): void
+    + toString(): String
+}
+class Externo {
+    - String id
+    - String nombre
+    - String apellidos
+    - String correo
+    + Externo(String n, String a, String c)
+    + getNombre(): String
+    + getApellidos(): String
+    + getCorreo(): String
+    + getId(): String
+    + invitar(Reunion a): void
+    + toString(): String
+}
+
+
+enum TipoReunion {
+    TECNICA
+    MARKETING
+    OTRO
+}
+
+Asistencia --> Empleado
+Departamento ..|> Invitable
+Empleado ..|> Invitable
+Departamento  o--  Empleado
+Invitacion --> Invitable
+Retraso -|> Asistencia
+Reunion  -->  TipoReunion
+Reunion  *--  Nota
+Reunion  *--  Asistencia
+ReunionPresencial -|> Reunion
+ReunionVirtual -|> Reunion
+Reunion  *--  Invitacion
+Externo ..|> Invitable
+Asistencia -->Externo
+
+
+@enduml
+
