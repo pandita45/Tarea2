@@ -14,5 +14,6 @@ public class Main {
 
         reunion.finalizar();
         System.out.println(reunion.toString());
+        reunion.escribirArchivo(reunion.toString());
         }
     }

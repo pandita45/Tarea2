@@ -1,4 +1,9 @@
 package org.example;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -6,7 +11,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+
 
 abstract public class Reunion {
     protected TipoReunion tipoReunion;
@@ -135,6 +142,18 @@ abstract public class Reunion {
 
     public Instant getHoraFinal() {
         return horaFinal;
+    }
+    public void escribirArchivo(String texto){
+        try {
+            Files.write(Paths.get("DatosDeLaReunion.txt"),
+                    Collections.singleton(texto),
+                    StandardOpenOption.CREATE,    // Crea el archivo si no existe
+                    StandardOpenOption.TRUNCATE_EXISTING); // Sobrescribe si ya existe
+            System.out.println("Archivo creado exitosamente.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

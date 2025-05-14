@@ -1,0 +1,12 @@
+ReunionVirtual
+link = hola.com
+fecha = 13/05/2025
+horaPrevista = 20:10:36
+duracionPrevista = 02:00:00
+horaInicio = 20:10:36
+horaFinal = 20:10:36
+asistencias = [Empleado{id='12', Apellidos='De Ingenieria', Nombre='Traductor', Correo='TraductorDeIng@yahoo.com'}]
+invitaciones = [hora = 20:10:36, invitado = Empleado{id='12', Apellidos='De Ingenieria', Nombre='Traductor', Correo='TraductorDeIng@yahoo.com'}]
+retrasos = []
+ausencias = []
+notas = []
