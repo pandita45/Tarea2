@@ -1,7 +1,6 @@
 package org.example;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-
 abstract public class Reunion {
     protected TipoReunion tipoReunion;
     protected Date fecha;
@@ -26,6 +24,14 @@ abstract public class Reunion {
     protected ArrayList<Invitacion> invitaciones;
     protected ArrayList<Retraso> retrasos;
     protected ArrayList<Nota> notas;
+
+    /** Constructor de la clase en donde crearemos y asignaremos todos los valores a nuestras variables
+     *
+     * @param f Fecha en la que será la Reunion
+     * @param j A que hora sera la reunion
+     * @param k Que duracion se tiene prevista para la reunion
+     * @param t Qué tipo de reunion es, se usa el enum
+     */
     public Reunion(Date f,Instant j,Duration k,TipoReunion t){
         asistencias = new ArrayList<>();
         invitaciones = new ArrayList<>();
@@ -38,6 +44,12 @@ abstract public class Reunion {
         this.horaInicio=null;
         this.horaFinal=null;
     }
+
+    /** Se agrega al array de asistencias y en caso de ser necesario tambien al de retrasos, en caso de no estar invitado
+     * no se agrega a ninguno de estos.
+     *
+     * @param i Invitado que se asistira a la Reunion
+     */
     public void agregarAsistencias(Invitable i){
         if(horaInicio!=null && estaInvitado(i)){
             Retraso a = new Retraso(Instant.now(),i);
@@ -50,23 +62,44 @@ abstract public class Reunion {
         }
     }
 
+    /** Metodo para crear invitacion de un Invitable
+     *
+     * @param a Invitable al que se le creara la invitacion
+     */
     public void invitarAReunion(Invitable a){
         Invitacion inv = new Invitacion(a);
         invitaciones.add(inv);
     }
 
+    /** Metodo getter del array de Invitados que asistieron a la Reunion
+     *
+     * @return array de Invitados que asistieron
+     */
     public ArrayList<Asistencia> obtenerAsistencia(){
         return asistencias;
     }
 
+    /** Metodo getter del array de Invitaciones
+     *
+     * @return array con todas las Invitaciones
+     */
     public ArrayList<Invitacion> getInvitaciones() {
         return invitaciones;
     }
 
+    /** Metodo getter del array de Notas
+     *
+     * @return array con todas las Notas
+     */
     public ArrayList<Nota> getNotas() {
         return notas;
     }
 
+    /** Metodo que llena un array con todas las Invitaciones y luego saca a todos los que asistieron, dejando solo los
+     * ausentes en el array
+     *
+     * @return devuelve el array con los que NO asistieron a la Reunion
+     */
     public ArrayList<Invitable> obtenerAusencias(){
         ArrayList<Invitable> ausencias = new ArrayList<>();
         for(Invitacion invitacion : invitaciones){
@@ -77,56 +110,104 @@ abstract public class Reunion {
         }
         return ausencias;
     }
+
+    /** Metodo getter de retrasos
+     *
+     * @return array con los retrasos
+     */
     public ArrayList<Retraso> obtenerRetrasos(){
         return retrasos;
     }
+
+    /**
+     * Obtenemos cuantos invitados asistieron a la reunion
+     * @return devuelve el tamaño del array de asistencias (cantidad de personas que asistieron)
+     */
     public int obtenerTotalAsistencias(){
         return asistencias.size();
     }
+
+    /**
+     * Calcula porcentaje de invitados que asistion a la reunion
+     * @return devuelve porcentaje de Invitados que asistieron a la Reunion
+     */
     public float obtenerPorcentajeAsistencia(){
         float porcentaje = (float) asistencias.size()/invitaciones.size();
         return porcentaje*100;
     }
 
+    /**
+     * Calcula cuanto duro la reunion
+     * @return devuelve el tiempo que duro la reunion
+     */
     public Duration calcularTiempoReal(){
         if(horaInicio==null || horaFinal==null){
             return null;
         }
         return Duration.between(horaFinal,horaInicio);
     }
+
+    /**
+     * Se agrega nota al array de notas
+     * @param k agrega este String al array de Notas
+     */
     public void agregarNotas(String k){
         notas.add(new Nota(k));
     }
 
+    /**
+     * Inicia la Reunion dandole un valor a horaInicio
+     */
     public void iniciar(){
         this.horaInicio = Instant.now();
     }
+
+    /**
+     * Se finaliza la reunion si y solo si es que la reunion inicio y se le asigna el valor a la horaFinal
+     */
     public void finalizar(){
         if(this.horaInicio != null){
             this.horaFinal = Instant.now();
         }
-        else{
-
-        }
-
     }
 
+    /** Metodo getter del tipo de reunion
+     *
+     * @return devuelve el tipo de reunion
+     */
     public TipoReunion getTipoReunion() {
         return tipoReunion;
     }
 
+    /** Metodo getter de la fecha de la Reunion
+     *
+     * @return devuelve la fecha en la que será la reunion
+     */
     public Date getFecha() {
         return fecha;
     }
 
+    /** Metodo getter de la Hora Prevista a la que iniciara la Reunion
+     *
+     * @return devuelve la Hora Prevista para que inicie la Reunion
+     */
     public Instant getHoraPrevista() {
         return horaPrevista;
     }
 
+    /** Metodo getter de la duracion prevista de la reunion
+     *
+     * @return devuelve la duracion prevista que dure la reunion
+     */
     public Duration getDuracionPrevista() {
         return duracionPrevista;
     }
 
+    /** Metodo que chequea si es que e Invitable esta invitado o no a la Reunion
+     *
+     * @param i Invitable que se verificara si es que esta invitado
+     * @return devuelve valor de verdad de si esta invitado o no a la reunion
+     */
     public boolean estaInvitado(Invitable i){
         for(Invitacion invitacion : invitaciones){
             if(invitacion.getInvitado() == i){
@@ -136,26 +217,44 @@ abstract public class Reunion {
         return false;
     }
 
+    /** Metodo getter de la hora de inicio de la Reunion
+     *
+     * @return devuelve la hora de inicio
+     */
     public Instant getHoraInicio() {
         return horaInicio;
     }
 
+    /** Metodo getter de la hora la cual se finalizo de la Reunion
+     *
+     * @return devuelve la hora la cual finalizo
+     */
     public Instant getHoraFinal() {
         return horaFinal;
     }
+
+    /** Metodo para crear Archivo
+     *
+      * @param texto se le pasa el toString de reunion
+     */
     public void escribirArchivo(String texto){
         try {
             Files.write(Paths.get("DatosDeLaReunion.txt"),
                     Collections.singleton(texto),
-                    StandardOpenOption.CREATE,    // Crea el archivo si no existe
-                    StandardOpenOption.TRUNCATE_EXISTING); // Sobrescribe si ya existe
-            System.out.println("Archivo creado exitosamente.");
+                    StandardOpenOption.CREATE,
+                    StandardOpenOption.TRUNCATE_EXISTING);
+            System.out.println("Estadisticas generadas correctamentes");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
+    /**
+     * Devuelve el string con toda la información de la Reunion, las clases que extienden a esta luego agregaran
+     *      * más información a este String.
+     * @return String con toda la información
+     */
     @Override
     public String toString() {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
@@ -178,14 +277,14 @@ abstract public class Reunion {
         String formatted = String.format("%02d:%02d:%02d", horas, minutos,0);
         return
                 "\nfecha = " + fechaTexto +
-                "\nhoraPrevista = " + fechaPrevista +
-                "\nduracionPrevista = " + formatted +
-                "\nhoraInicio = " + fechaInicio +
-                "\nhoraFinal = " + fechaFinal +
-                "\nasistencias = " + asistencias +
-                "\ninvitaciones = " + invitaciones +
-                "\nretrasos = " + retrasos +
-                "\nausencias = " + obtenerAusencias() +
-                "\nnotas = " + notas;
+                        "\nhoraPrevista = " + fechaPrevista +
+                        "\nduracionPrevista = " + formatted +
+                        "\nhoraInicio = " + fechaInicio +
+                        "\nhoraFinal = " + fechaFinal +
+                        "\nasistencias = " + asistencias +
+                        "\ninvitaciones = " + invitaciones +
+                        "\nretrasos = " + retrasos +
+                        "\nausencias = " + obtenerAusencias() +
+                        "\nnotas = " + notas;
     }
 }
